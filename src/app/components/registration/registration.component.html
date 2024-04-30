@@ -1,0 +1,115 @@
+<div class="container col-md-6">
+  <div class="card text-left bg-white rounded shadow">
+    <div class="card-title">
+      <div class="alert alert-primary" *ngIf="alertMessage">
+        <h4>Registration Successfully..</h4>
+      </div>
+      <h1 class="login-header text-center fw-normal bg-secondary p-3 text-white">
+        Registration Form
+      </h1>
+    </div>
+    
+    <div class="card-body">
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="form-group mb-3">
+          <label>First Name <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="text" formControlName="firstName" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('firstName').invalid && registerForm.get('firstName').touched}" />
+          <div *ngIf="registerForm.get('firstName').invalid && registerForm.get('firstName').touched" class="error-message">
+            <div *ngIf="registerForm.get('firstName').errors.required">First name is required.</div>
+            <div *ngIf="registerForm.get('firstName').errors.maxLength">Maximum length exceeded.</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Last Name <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="text" formControlName="lastName" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('lastName').invalid && registerForm.get('lastName').touched}" />
+            <div *ngIf="registerForm.get('lastName').invalid && registerForm.get('lastName').touched" class="error-message">
+              <div *ngIf="registerForm.get('lastName').errors.required">Last name is required.</div>
+              <div *ngIf="registerForm.get('lastName').errors.maxLength">Maximum length exceeded.</div>
+            </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Email <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="text" formControlName="email" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('email').invalid && registerForm.get('email').touched}" />
+          <div *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" class="error-message">
+            <div *ngIf="registerForm.get('email').errors?.required">Email is required</div>
+            <div *ngIf="registerForm.get('email').errors?.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Password <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="password" formControlName="password" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('password').invalid && registerForm.get('password').touched}" />
+          <div *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched" class="error-message">
+            <div *ngIf="registerForm.get('password').errors?.required">Password is required</div>
+            <div *ngIf="registerForm.get('password').errors?.minlength">Password must be at least 6 characters</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Confirm Password <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="password" formControlName="confirmPassword" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('confirmPassword').invalid && registerForm.get('confirmPassword').touched}"  />
+          <div *ngIf="registerForm.get('confirmPassword').invalid && registerForm.get('confirmPassword').touched" class="error-message">
+            <div *ngIf="registerForm.get('confirmPassword').errors?.required">Confirm Password is required</div>
+            <div *ngIf="registerForm.get('confirmPassword').errors?.mustMatch">Passwords must match</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Mobile Number <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="number" formControlName="mobileNumber" class="form-control" (keypress)="keyPress($event)"
+          [ngClass]="{'is-invalid': registerForm.get('mobileNumber').invalid && registerForm.get('mobileNumber').touched}" />
+          <div *ngIf="registerForm.get('mobileNumber').invalid && registerForm.get('mobileNumber').touched" class="error-message">
+            <div *ngIf="registerForm.get('mobileNumber').errors.required">Mobile number is required.</div>
+      <div *ngIf="registerForm.get('mobileNumber').errors.minlength">Mobile number should be minimum 10 digits.</div>
+      <div *ngIf="registerForm.get('mobileNumber').errors.maxlength">Mobile number should be maximum 10 digits.</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Aadhar <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="text" formControlName="aadhar" class="form-control" pattern="[0-9]{12}" [ngClass]="{'is-invalid': registerForm.get('aadhar').invalid && registerForm.get('aadhar').touched}">
+          <div class="error-message" *ngIf="registerForm.get('aadhar').invalid && registerForm.get('aadhar').touched">
+            <div *ngIf="registerForm.get('aadhar').errors.required">Aadhar number is required.</div>
+            <div *ngIf="registerForm.get('aadhar').errors.pattern">Invalid Aadhar number.</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label>Address <span style="color: red !important; display: inline; float: none;">*</span></label>
+          <input type="text" formControlName="address" class="form-control"
+          [ngClass]="{'is-invalid': registerForm.get('address').invalid && registerForm.get('address').touched}" />
+          <div *ngIf="registerForm.get('address').invalid && registerForm.get('address').touched" class="error-message">
+            <div *ngIf="registerForm.get('address').errors.required">Address is required.</div>
+          </div>
+        </div>
+        <div class="form-group mb-3">
+          <label for="">State<span style="color: red !important; display: inline; float: none;">*</span></label>
+          <select class="form-control" (change)="selectState($event)" id="state" formControlName="state"
+          [ngClass]="{'is-invalid': registerForm.get('state').invalid && registerForm.get('state').touched}" >
+            <option selected>-select-</option>
+            <option *ngFor="let state of dataSource" [value]="state.stateId">{{state.stateName}}</option>
+          </select>
+          <div *ngIf="registerForm.get('state').invalid && registerForm.get('state').touched" class="error-message">
+            <div *ngIf="registerForm.get('state').errors.required">State is required.</div>
+          </div>
+        </div>
+        <div class="form-group mb-3" *ngIf="cityValue">
+          <label for="">City<span style="color: red !important; display: inline; float: none;">*</span></label>
+          <select class="form-control" id="city" formControlName="city"
+          [ngClass]="{'is-invalid': registerForm.get('city').invalid && registerForm.get('city').touched}">
+            <option selected>-select-</option>
+            <option *ngFor="let city of cityData" [value]="city.cityName">{{city.cityName}}</option>
+          </select>
+          <div *ngIf="registerForm.get('city').invalid && registerForm.get('city').touched" class="error-message">
+            <div *ngIf="registerForm.get('city').errors.required">City is required.</div>
+          </div>
+        </div>&nbsp;&nbsp;
+        <div class="text-center">
+          <button class="btn btn-primary mr-1" [disabled]="!registerForm.valid">Register</button>
+          
+          </div>
+      
+      </form>
+    </div>
+  </div>
+</div>
